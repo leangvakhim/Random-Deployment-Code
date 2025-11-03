@@ -3,7 +3,8 @@ import numpy as np
 from plot import plot_convergence_curve
 from benchmark import (
     F1_function,
-    F2_function
+    F2_function,
+    F3_function,
 )
 from ssa import ssa
 
@@ -18,8 +19,9 @@ times = 30
 all_position_results = []
 start_time = time.time()
 for _ in range (times):
-    global_best_position, global_best_fitness, convergence_curve = ssa(n_sparrows, dimension, lower_bound, upper_bound, max_iterations, F1_function)
+    # global_best_position, global_best_fitness, convergence_curve = ssa(n_sparrows, dimension, lower_bound, upper_bound, max_iterations, F1_function)
     # global_best_position, global_best_fitness, convergence_curve = ssa(n_sparrows, dimension, lower_bound, upper_bound, max_iterations, F2_function)
+    global_best_position, global_best_fitness, convergence_curve = ssa(n_sparrows, dimension, lower_bound, upper_bound, max_iterations, F3_function)
     # all_fitness_results.append(global_best_fitness)
     all_position_results.append(global_best_position)
 
