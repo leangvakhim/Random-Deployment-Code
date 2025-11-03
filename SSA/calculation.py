@@ -18,13 +18,14 @@ def initialize_sparrow_position(n, d, lower_bound, upper_bound):
     return X
 
 def calculate_fitness(X, benchmark_function):
-    n = X.shape[0]
-    Fx = np.zeros(n)
+    # n = X.shape[0]
+    # Fx = np.zeros(n)
 
-    for i in range(n):
-        Fx[i] = benchmark_function(X[i, :])
+    # for i in range(n):
+    #     Fx[i] = benchmark_function(X[i, :])
 
-    return Fx
+    # return Fx
+    return benchmark_function(X)
 
 def update_producers(X, sorted_indices, iter_max, ST, PD_count, d):
     R2 = np.random.rand()

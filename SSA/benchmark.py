@@ -1,15 +1,12 @@
 import numpy as np
 
 def F1_function(x):
-    return np.sum(x ** 2)
+    return np.sum(x ** 2, axis=1)
 
 def F2_function(x):
-    return np.sum(np.abs(x)) + np.prod(np.abs(x))
+    return np.sum(np.abs(x), axis=1) + np.prod(np.abs(x), axis=1)
 
 def F3_function(x):
-    n = len(x)
-    total_sum = 0
-    for i in range(n):
-        inner_sum = np.sum(x[:i+1])
-        total_sum += inner_sum
-    return total_sum
+    inner_sums = np.cumsum(x, axis=1)
+    squared_sums = inner_sums ** 2
+    return np.sum(squared_sums, axis=1)

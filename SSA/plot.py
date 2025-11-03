@@ -2,7 +2,7 @@ import matplotlib.pyplot as plt
 import seaborn as sns
 import numpy as np
 
-def plot_convergence_curve(convergence_curve_data):
+def plot_convergence_curve(convergence_curve_data, function_name="Benchmark Function"):
     # seaborn alternative
     sns.set_theme(style="whitegrid")
     fig, ax = plt.subplots(figsize=(10, 6))
@@ -36,5 +36,5 @@ def plot_convergence_curve(convergence_curve_data):
 
     # # plt.grid(True, which="both", ls="--", linewidth=0.5)
     # plt.legend()
-
+    print(f"Function Name: {function_name}")
     plt.show()
