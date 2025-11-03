@@ -1,4 +1,5 @@
 import numpy as np
+from tqdm import tqdm
 from calculation import (
     initialize_sparrow_position,
     calculate_fitness,
@@ -24,9 +25,11 @@ def ssa(n, d, lb, ub, iter_max, benchmark_function):
     global_best_fitness = Fx[best_fitness_index]
     global_best_position = X[best_fitness_index, :].copy()
 
-    print("--- Starting SSA Optimization ---")
+    convergence_curve = np.zeros(iter_max)
 
-    for t in range(iter_max):
+    # print("--- Starting SSA Optimization ---")
+
+    for t in tqdm(range(iter_max), desc="SSA Optimization Progress"):
 
         sorted_indices = np.argsort(Fx)
 
@@ -58,12 +61,14 @@ def ssa(n, d, lb, ub, iter_max, benchmark_function):
             global_best_fitness = Fx[current_best_index]
             global_best_position = X[current_best_index, :].copy()
 
-        if (t + 1) % 10 == 0:
-            print(f"Iteration {t + 1}/{iter_max}, Best Fitness: {global_best_fitness}")
+        convergence_curve[t] = global_best_fitness
+
+        # if (t + 1) % 10 == 0:
+        #     print(f"Iteration {t + 1}/{iter_max}, Best Fitness: {global_best_fitness}")
 
     # print(f"Global Best Position: {global_best_position}")
     # print(f"Global Best Fitness: {global_best_fitness}")
     # print(f"Mean Global Best Fitness Fitness: {np.std(global_best_position)}")
 
-    return global_best_position, global_best_fitness
+    return global_best_position, global_best_fitness, convergence_curve
 
