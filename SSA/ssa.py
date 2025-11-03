@@ -44,7 +44,7 @@ def ssa(n, d, lb, ub, iter_max, benchmark_function):
         X = update_producers(X, sorted_indices, iter_max, ST, PD_count, d)
 
         # Equation 4 - Update scroungers
-        X = update_scroungers(X, sorted_indices, PD_count, n, d, global_best_position, global_worst_position)
+        X = update_scroungers(X, sorted_indices, PD_count, n, d, current_global_best_position, global_worst_position)
 
         # Equation 5 - Danger aware sparrows
         X = danger_aware(X, Fx, n, SD_count, current_global_best_fitness, current_global_best_position, current_global_worst_fitness, current_global_worst_position)
