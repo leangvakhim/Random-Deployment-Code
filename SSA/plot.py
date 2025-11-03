@@ -6,7 +6,11 @@ def plot_convergence_curve(convergence_curve_data, formula):
     # seaborn alternative
     sns.set_theme(style="whitegrid")
     fig, ax = plt.subplots(figsize=(10, 6))
+    curve_data = np.array(convergence_curve_data)
+    all_positive = np.all(curve_data > 0)
     sns.lineplot(
+        # x=range(len(curve_data)),
+        # y=curve_data,
         data=convergence_curve_data,
         # palette="tab10",
         # linewidth=2.5,
@@ -19,7 +23,10 @@ def plot_convergence_curve(convergence_curve_data, formula):
     ax.set_xlabel('Iteration')
     ax.set_ylabel('Fitness')
 
-    ax.set_yscale('log')
+    if all_positive:
+        ax.set_yscale('log')
+    else:
+        ax.set_yscale('linear')
     ax.legend(labels=[formula])
     # ax.legend()
 
