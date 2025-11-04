@@ -87,4 +87,4 @@ print(f"Final Variance (D_var): {final_variance:.4f}")
 # plot_convergence_curve(convergence_curve)
 
 # Plot the final node deployment
-plot_node_deployment(best_nodes, area_size, sensing_radius, final_coverage_percent)
+plot_node_deployment(best_nodes, area_size, sensing_radius, monitoring_points, final_coverage_percent)
