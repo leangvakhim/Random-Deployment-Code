@@ -3,7 +3,7 @@ import seaborn as sns
 import numpy as np
 
 # Line graphs
-def plot_convergence_curve(convergence_curve_data, formula):
+def plot_convergence_curve(convergence_curve_data):
     # seaborn alternative
     sns.set_theme(style="whitegrid")
     fig, ax = plt.subplots(figsize=(10, 6))
@@ -28,5 +28,6 @@ def plot_convergence_curve(convergence_curve_data, formula):
         ax.set_yscale('log')
     else:
         ax.set_yscale('linear')
-    ax.legend(labels=[formula])
+    # ax.legend(labels=[formula])
+    ax.legend()
     plt.show()

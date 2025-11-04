@@ -94,6 +94,7 @@ def dynamic_warning_update(X, n, d, SD_count, global_best_position, delta_warn):
     term1 = X[i, :] * (1 - delta_warn)
     term2 = delta_warn * r * global_best_position
     X[i, :] = term1 + term2
+    return X
 
 def calculate_coverage(sparrow_nodes, area_size, sensing_radius, monitor_points):
     num_monitor_points = monitor_points.shape[0]

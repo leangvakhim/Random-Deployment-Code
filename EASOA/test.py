@@ -24,8 +24,8 @@ xx, yy = np.meshgrid(np.arange(0, area_size, grid_step),
 monitoring_points = np.vstack([xx.ravel(), yy.ravel()]).T
 
 n_sparrows = 50
-max_iterations = 200
-times = 1
+max_iterations = 500
+times = 10
 
 dimension = num_nodes * 2
 lower_bound = 0.0
@@ -76,7 +76,7 @@ final_variance = calculate_variance(best_nodes)
 
 print(f"Final Coverage (R_cover): {final_coverage * 100:.2f}%")
 print(f"Final Variance (D_var): {final_variance:.4f}")
-print(f"Best Node Positions:\n {best_nodes}")
+# print(f"Best Node Positions:\n {best_nodes}")
 
 # Plot the convergence
-plot_convergence_curve(convergence_curve, formula=f"EASOA for WSN (Fitness: {real_fitness_score:.4f})")
+plot_convergence_curve(convergence_curve)
