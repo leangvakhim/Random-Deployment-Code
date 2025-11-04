@@ -98,24 +98,9 @@ def dynamic_warning_update(X, n, d, SD_count, global_best_position, delta_warn):
     return X
 
 def calculate_coverage(sparrow_nodes, area_size, sensing_radius, monitor_points):
-    # num_monitor_points = monitor_points.shape[0]
-    # num_nodes = sparrow_nodes.shape[0]
-    # nodes_reshaped = np.expand_dims(sparrow_nodes, axis=0)
-    # points_reshaped = np.expand_dims(monitor_points, axis=1)
-    # distances_sq = np.sum((points_reshaped - nodes_reshaped)**2, axis=2)
-    # sensing_radius_sq = sensing_radius**2
-    # min_dist_sq_per_point = np.min(distances_sq, axis=1)
-    # covered_mask = min_dist_sq_per_point <= sensing_radius_sq
-    # covered_points = np.sum(covered_mask)
-    # return covered_points / num_monitor_points
-
     num_monitor_points = monitor_points.shape[0]
     num_nodes = sparrow_nodes.shape[0]
-    # nodes_reshaped = np.expand_dims(sparrow_nodes, axis=0)
-    # points_reshaped = np.expand_dims(monitor_points, axis=1)
-    # distances_sq = np.sum((points_reshaped - nodes_reshaped)**2, axis=2)
     distance = cdist(sparrow_nodes, monitor_points)
-    # sensing_radius_sq = sensing_radius**2
     prob_si_pj = (distance <= sensing_radius).astype(int)
     prob_not_covered_by_si = 1.0 - prob_si_pj
     prob_not_covered_by_any = np.prod(prob_not_covered_by_si, axis=0)
