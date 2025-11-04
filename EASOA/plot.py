@@ -31,3 +31,21 @@ def plot_convergence_curve(convergence_curve_data):
     # ax.legend(labels=[formula])
     ax.legend()
     plt.show()
+
+def plot_node_deployment(nodes, area_size, sensing_radius, coverage_percent):
+    sns.set_theme(style="white")
+    fig, ax = plt.subplots(figsize=(8, 8))
+    ax.scatter(nodes[:, 0], nodes[:, 1], c='blue', label='Sensor Nodes', zorder=5)
+    for (x, y) in nodes:
+        circle = plt.Circle((x, y), sensing_radius, color='blue', alpha=0.15, zorder=1)
+        ax.add_patch(circle)
+
+    ax.set_xlim(0, area_size)
+    ax.set_ylim(0, area_size)
+    ax.set_xlabel('X Coordinate (m)')
+    ax.set_ylabel('Y Coordinate (m)')
+    ax.set_title(f'Final Sensor Node Deployment (Coverage: {coverage_percent:.2f}%)')
+    ax.set_aspect('equal', 'box')
+    ax.legend()
+    # plt.grid(True, linestyle='--', alpha=0.6)
+    plt.show()

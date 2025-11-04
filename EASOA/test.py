@@ -1,6 +1,9 @@
 import time
 import numpy as np
-from plot import plot_convergence_curve
+from plot import (
+    plot_convergence_curve,
+    plot_node_deployment,
+)
 from easoa import easoa
 from calculation import (
     wsn_fitness_wrapper,
@@ -73,10 +76,15 @@ print(f"Best Fitness (Score): {real_fitness_score:.4f}")
 best_nodes = global_best_position.reshape(num_nodes, 2)
 final_coverage = calculate_coverage(best_nodes, area_size, sensing_radius, monitoring_points)
 final_variance = calculate_variance(best_nodes)
+final_coverage_percent = final_coverage * 100
 
 print(f"Final Coverage (R_cover): {final_coverage * 100:.2f}%")
 print(f"Final Variance (D_var): {final_variance:.4f}")
 # print(f"Best Node Positions:\n {best_nodes}")
 
+
 # Plot the convergence
-plot_convergence_curve(convergence_curve)
+# plot_convergence_curve(convergence_curve)
+
+# Plot the final node deployment
+plot_node_deployment(best_nodes, area_size, sensing_radius, final_coverage_percent)
