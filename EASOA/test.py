@@ -32,11 +32,11 @@ lower_bound = 0.0
 upper_bound = area_size
 
 function_to_use = lambda x: wsn_fitness_wrapper(
-    x,
+    X_population=x,
     num_nodes=num_nodes,
     area_size=area_size,
     sensing_radius=sensing_radius,
-    monitoring_points=monitoring_points,
+    monitor_points=monitoring_points,
     w1=w1_coverage,
     w2=w2_variance,
     w3=w3_energy
