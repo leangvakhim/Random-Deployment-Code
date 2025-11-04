@@ -1,4 +1,5 @@
 import numpy as np
+from scipy.spatial.distance import cdist, pdist
 
 def initialize_sparrow_position(n, d, lower_bound, upper_bound):
     if isinstance(lower_bound, (int, float)):
@@ -97,16 +98,32 @@ def dynamic_warning_update(X, n, d, SD_count, global_best_position, delta_warn):
     return X
 
 def calculate_coverage(sparrow_nodes, area_size, sensing_radius, monitor_points):
+    # num_monitor_points = monitor_points.shape[0]
+    # num_nodes = sparrow_nodes.shape[0]
+    # nodes_reshaped = np.expand_dims(sparrow_nodes, axis=0)
+    # points_reshaped = np.expand_dims(monitor_points, axis=1)
+    # distances_sq = np.sum((points_reshaped - nodes_reshaped)**2, axis=2)
+    # sensing_radius_sq = sensing_radius**2
+    # min_dist_sq_per_point = np.min(distances_sq, axis=1)
+    # covered_mask = min_dist_sq_per_point <= sensing_radius_sq
+    # covered_points = np.sum(covered_mask)
+    # return covered_points / num_monitor_points
+
     num_monitor_points = monitor_points.shape[0]
     num_nodes = sparrow_nodes.shape[0]
-    nodes_reshaped = np.expand_dims(sparrow_nodes, axis=0)
-    points_reshaped = np.expand_dims(monitor_points, axis=1)
-    distances_sq = np.sum((points_reshaped - nodes_reshaped)**2, axis=2)
-    sensing_radius_sq = sensing_radius**2
-    min_dist_sq_per_point = np.min(distances_sq, axis=1)
-    covered_mask = min_dist_sq_per_point <= sensing_radius_sq
-    covered_points = np.sum(covered_mask)
-    return covered_points / num_monitor_points
+    # nodes_reshaped = np.expand_dims(sparrow_nodes, axis=0)
+    # points_reshaped = np.expand_dims(monitor_points, axis=1)
+    # distances_sq = np.sum((points_reshaped - nodes_reshaped)**2, axis=2)
+    distance = cdist(sparrow_nodes, monitor_points)
+    # sensing_radius_sq = sensing_radius**2
+    prob_si_pj = (distance <= sensing_radius).astype(int)
+    prob_not_covered_by_si = 1.0 - prob_si_pj
+    prob_not_covered_by_any = np.prod(prob_not_covered_by_si, axis=0)
+    prob_covered_pj = 1.0 - prob_not_covered_by_any
+    total_covered_points = np.sum(prob_covered_pj)
+    R_cover = total_covered_points / num_monitor_points
+
+    return R_cover
 
 def calculate_variance(sparrow_nodes):
     var_x = np.var(sparrow_nodes[:, 0])
@@ -121,7 +138,7 @@ def wsn_fitness_wrapper(X_population, num_nodes, area_size, sensing_radius, moni
         sparrow_nodes = sparrow_vector.reshape(num_nodes, 2)
         R_cover = calculate_coverage(sparrow_nodes, area_size, sensing_radius, monitor_points)
         D_var = calculate_variance(sparrow_nodes)
-        E_total = 0
+        E_total = 100/1000
         F = (w1 * R_cover) - (w2 * D_var) - (w3 * E_total)
         fitness_values[i] = -F
 

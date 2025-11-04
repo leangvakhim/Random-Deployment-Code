@@ -28,7 +28,7 @@ monitoring_points = np.vstack([xx.ravel(), yy.ravel()]).T
 
 n_sparrows = 50
 max_iterations = 500
-times = 10
+times = 1
 
 dimension = num_nodes * 2
 lower_bound = 0.0

@@ -46,6 +46,14 @@ def plot_node_deployment(nodes, area_size, sensing_radius, monitoring_points, co
         ax.add_patch(coverage_circle)
 
     # 2. plot each monitoring point and color it by coverage status
+    for i, target_pos in enumerate(monitoring_points):
+        target_pos_2d = np.array([target_pos])
+        is_covered = calculate_coverage(nodes, area_size, sensing_radius, monitoring_points) > 0
+        color = 'green' if is_covered else 'red'
+        label = 'Covered Target' if is_covered and 'Covered Target' not in ax.get_legend_handles_labels()[1] else \
+                'Uncovered Target' if not is_covered and 'Uncovered Target' not in ax.get_legend_handles_labels()[1] else ""
+        ax.plot(target_pos[0], target_pos[1], 'o', color=color, markersize=3, label=label)
+
     # for i, point in enumerate(monitoring_points):
     #     # point_2d = np.array(point)
     #     is_covered = calculate_coverage(nodes, area_size, sensing_radius, monitoring_points) > 0
