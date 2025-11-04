@@ -37,9 +37,9 @@ function_to_use = lambda x: wsn_fitness_wrapper(
     area_size=area_size,
     sensing_radius=sensing_radius,
     monitoring_points=monitoring_points,
-    w1_coverage=w1_coverage,
-    w2_variance=w2_variance,
-    w3_energy=w3_energy
+    w1=w1_coverage,
+    w2=w2_variance,
+    w3=w3_energy
 )
 
 print("--- Running EASOA for WSN Node Placement ---")
