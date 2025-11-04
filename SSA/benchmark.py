@@ -1,20 +1,25 @@
 import numpy as np
 
+# Unimodal Test Functions (F1 - F7)
+# Sphere function
 def F1_function(x):
     return np.sum(x ** 2, axis=1)
 
+# Schwefel's function 2.21
 def F2_function(x):
     return np.sum(np.abs(x), axis=1) + np.prod(np.abs(x), axis=1)
 
-# Schewfel's Problem 1.2
+# Schwefel's Problem 1.2 or 2.22
 def F3_function(x):
     inner_sums = np.cumsum(x, axis=1)
     squared_sums = inner_sums ** 2
     return np.sum(squared_sums, axis=1)
 
+# Max function
 def F4_function(x):
     return np.max(np.abs(x), axis=1)
 
+# Rosenbrock's function
 def F5_function(x):
     x_i = x[:, :-1]
     x_i_plus_1 = x[:, 1:]
@@ -32,6 +37,7 @@ def F6_function(x):
     total_sum = np.sum(squared_values, axis=1)
     return total_sum
 
+# Quartic function
 def F7_function(x):
     dimension = x.shape[1]
     i_vector = np.arange(1, dimension + 1)
@@ -40,11 +46,14 @@ def F7_function(x):
     noise_part = np.random.rand(x.shape[0])
     return sum_part + noise_part
 
+# Multimodal Test Functions (F8 - F12)
+# Schwefel's function 2.26
 def F8_function(x):
     term = -x * np.sin(np.sqrt(np.abs(x)))
     total_sum = np.sum(term, axis=1)
     return total_sum
 
+# Rastrigin's function
 def F9_function(x):
     part1 = x**2
     part2 = 10 * np.cos(2 * np.pi * x)
@@ -91,6 +100,7 @@ def _u(xi, a, k, m):
     u_vals[cond2_mask] = k * (-xi[cond2_mask] - a)**m
     return u_vals
 
+# Levy's function
 def F12_function(x):
     dimension = x.shape[1]
     u_sum = np.sum(_u(x, a=10, k=100, m=4), axis=1)
@@ -105,6 +115,8 @@ def F12_function(x):
     total = (np.pi / dimension) * (part1 + part2_sum + part3) + u_sum
     return total
 
+# Fixed-Dimension Test Functions (F13 - F19)
+# Six-Hump Camel function
 def F13_function(x):
     x1 = x[:, 0]
     x2 = x[:, 1]
