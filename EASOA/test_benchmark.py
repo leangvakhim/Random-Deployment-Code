@@ -40,7 +40,7 @@ function_config = {
     },
 }
 
-function_to_run = "F2"
+function_to_run = "F3"
 dimension = function_config[function_to_run]["dimension"]
 lower_bound = function_config[function_to_run]["lower_bound"]
 upper_bound = function_config[function_to_run]["upper_bound"]

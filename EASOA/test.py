@@ -28,7 +28,7 @@ monitoring_points = np.vstack([xx.ravel(), yy.ravel()]).T
 
 n_sparrows = 50
 max_iterations = 500
-times = 1
+times = 10
 
 dimension = num_nodes * 2
 lower_bound = 0.0
@@ -46,7 +46,7 @@ function_to_use = lambda x: wsn_fitness_wrapper(
 )
 
 print("--- Running EASOA for WSN Node Placement ---")
-print(f"Nodes: {num_nodes}, Area: {area_size}x{area_size}, Population: {n_sparrows}, Iterations: {max_iterations}")
+# print(f"Nodes: {num_nodes}, Area: {area_size}x{area_size}, Population: {n_sparrows}, Iterations: {max_iterations}")
 
 all_position_results = []
 start_time = time.time()
@@ -71,7 +71,7 @@ real_fitness_score = -global_best_fitness
 
 print(f"\n--- EASOA WSN Results ---")
 print(f"Average Time: {average_time:.2f} seconds")
-print(f"Best Fitness (Score): {real_fitness_score:.4f}")
+# print(f"Best Fitness (Score): {real_fitness_score:.4f}")
 
 best_nodes = global_best_position.reshape(num_nodes, 2)
 final_coverage = calculate_coverage(best_nodes, area_size, sensing_radius, monitoring_points)

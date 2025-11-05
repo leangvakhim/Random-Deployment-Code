@@ -23,7 +23,8 @@ def easoa(n, d, lb, ub, iter_max, benchmark_function):
     beta_initial = 0.5 # Brightness perturbation initial coeff
     gamma = 1e-5        # Brightness perturbation attenuation
     # gamma = 0.9        # Brightness perturbation attenuation
-    alpha_pert = 0.1   # Brightness perturbation random factor
+    alpha_pert = 0   # Brightness perturbation random factor
+    # alpha_pert = 0.1   # Brightness perturbation random factor
 
     delta_warn = 0.3   # Dynamic warning update coeff
 
