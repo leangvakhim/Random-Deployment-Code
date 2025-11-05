@@ -11,11 +11,11 @@ from calculation import (
 )
 def easoa(n, d, lb, ub, iter_max, benchmark_function):
 
-    PD_percent = 0.2
-    PD_count = int(n * PD_percent)
+    # PD_percent = 0.2
+    # PD_count = int(n * PD_percent)
     SD_percent = 0.1
     SD_count = int(n * SD_percent)
-    ST = 0.8 # Safety threshold
+    # ST = 0.8 # Safety threshold
 
     elite_rate = 0.2 # Rate of elites for reverse selection
     elite_count = int(n * elite_rate)
@@ -50,8 +50,8 @@ def easoa(n, d, lb, ub, iter_max, benchmark_function):
         current_global_best_position = X[best_index, :].copy()
         current_global_best_fitness = Fx[best_index]
         global_worst_position = X[worst_index, :].copy()
-        X = update_producers(X, sorted_indices, iter_max, ST, PD_count, d)
-        X = update_scroungers(X, sorted_indices, PD_count, n, d, current_global_best_position, global_worst_position)
+        # X = update_producers(X, sorted_indices, iter_max, ST, PD_count, d)
+        # X = update_scroungers(X, sorted_indices, PD_count, n, d, current_global_best_position, global_worst_position)
         k = t
         K_max = iter_max
         X = brightness_driven_perturbation(
