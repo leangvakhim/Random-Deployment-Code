@@ -20,10 +20,10 @@ def plot_convergence_curve(convergence_curve_data):
         # linewidth=2.5,
         # ax=ax,
         # color='green',
-        label='SSA Convergence'
+        label='EASOA Convergence'
     )
 
-    ax.set_title('SSA Convergence Curve')
+    ax.set_title('EASOA Convergence Curve')
     ax.set_xlabel('Iteration')
     ax.set_ylabel('Fitness')
 
