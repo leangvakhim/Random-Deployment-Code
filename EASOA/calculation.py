@@ -64,9 +64,12 @@ def update_scroungers(X, sorted_indices, PD_count, n, d, global_best_position, g
 
 def reverse_elite_selection(X, Fx, sorted_indices, elite_count, lb, ub, benchmark_function):
     elite_indices = sorted_indices[:elite_count]
+    x_max = np.max(X, axis=0)
+    x_min = np.min(X, axis=0)
     x_elites = X[elite_indices, :]
     f_elites = Fx[elite_indices]
-    x_primes = ub + lb - x_elites
+    # x_primes = ub + lb - x_elites
+    x_primes = (x_max + x_min) - x_elites
     x_primes = np.clip(x_primes, lb, ub)
     f_primes = calculate_fitness(x_primes, benchmark_function)
     replace_mask = f_primes < f_elites
