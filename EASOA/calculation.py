@@ -88,10 +88,16 @@ def brightness_driven_perturbation(X, Fx, n, d, k, K_max, beta_initial, gamma, a
 
         if Fx[j] < Fx[i]:
             d_ij = np.linalg.norm(X[i, :] - X[j, :])
-            attraction_term = np.exp(-gamma * (d_ij**2)) * (X[j, :] - X[i, :])
+
+            attraction_term = beta * np.exp(-gamma * (d_ij**2)) * (X[j, :] - X[i, :])
             noise_term = alpha_pert * np.random.randn()
 
-            perturbation = beta * (attraction_term + noise_term)
+            perturbation = attraction_term + noise_term
+
+            # attraction_term = np.exp(-gamma * (d_ij**2)) * (X[j, :] - X[i, :])
+            # noise_term = alpha_pert * np.random.randn()
+
+            # perturbation = beta * (attraction_term + noise_term)
             # perturbation = beta * np.exp(-gamma * (d_ij**2)) * (X[j, :] - X[i, :]) + alpha_pert * np.random.randn()
             X_new[i, :] = X[i, :] + perturbation
         # d_ij = np.linalg.norm(X[i, :] - X[j, :])
@@ -99,7 +105,8 @@ def brightness_driven_perturbation(X, Fx, n, d, k, K_max, beta_initial, gamma, a
 
         # X[i, :] = X[i, :] + perturbation
 
-    return X
+    return X_new
+    # return X
 
 def dynamic_warning_update(X, n, d, SD_count, global_best_position, delta_warn):
     danger_indices = np.random.choice(n, SD_count, replace=False)
