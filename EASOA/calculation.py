@@ -113,7 +113,12 @@ def calculate_coverage(sparrow_nodes, area_size, sensing_radius, monitor_points)
 def calculate_variance(sparrow_nodes):
     var_x = np.var(sparrow_nodes[:, 0])
     var_y = np.var(sparrow_nodes[:, 1])
-    return var_x + var_y
+    total_var = var_x + var_y
+
+    if total_var < 1e-9:
+        return 1e9
+
+    return 1.0 / total_var
 
 def wsn_fitness_wrapper(X_population, num_nodes, area_size, sensing_radius, monitor_points, w1, w2, w3):
     n_sparrows = X_population.shape[0]
