@@ -8,8 +8,11 @@ def F1_function(x):
 
 # High Conditional Elliptics
 def F2_function(x):
-    result = x[0]**2 + (10**6) * np.sum(x[1:]**2)
-    return result
+    part1 = x[:, 0]**2
+    part2 = (10**6) * np.sum(x[:, 1:]**2, axis=1)
+    return part1 + part2
+    # result = x[0]**2 + (10**6) * np.sum(x[1:]**2)
+    # return result
 
 # Ackley Function
 def F3_function(x):
