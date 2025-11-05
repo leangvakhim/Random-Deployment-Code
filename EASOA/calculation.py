@@ -80,14 +80,20 @@ def reverse_elite_selection(X, Fx, sorted_indices, elite_count, lb, ub, benchmar
 
 def brightness_driven_perturbation(X, Fx, n, d, k, K_max, beta_initial, gamma, alpha_pert):
     beta = beta_initial * (1 - (k / K_max))
+    X_new = X.copy()
     for i in range(n):
         j = np.random.randint(0, n)
         while i == j:
             j = np.random.randint(0, n)
-        d_ij = np.linalg.norm(X[i, :] - X[j, :])
-        perturbation = beta * np.exp(-gamma * (d_ij**2)) * (X[j, :] - X[i, :]) + alpha_pert * np.random.randn()
 
-        X[i, :] = X[i, :] + perturbation
+        if Fx[j] < Fx[i]:
+            d_ij = np.linalg.norm(X[i, :] - X[j, :])
+            perturbation = beta * np.exp(-gamma * (d_ij**2)) * (X[j, :] - X[i, :]) + alpha_pert * np.random.randn()
+            X_new[i, :] = X[i, :] + perturbation
+        # d_ij = np.linalg.norm(X[i, :] - X[j, :])
+        # perturbation = beta * np.exp(-gamma * (d_ij**2)) * (X[j, :] - X[i, :]) + alpha_pert * np.random.randn()
+
+        # X[i, :] = X[i, :] + perturbation
 
     return X
 
