@@ -88,7 +88,11 @@ def brightness_driven_perturbation(X, Fx, n, d, k, K_max, beta_initial, gamma, a
 
         if Fx[j] < Fx[i]:
             d_ij = np.linalg.norm(X[i, :] - X[j, :])
-            perturbation = beta * np.exp(-gamma * (d_ij**2)) * (X[j, :] - X[i, :]) + alpha_pert * np.random.randn()
+            attraction_term = np.exp(-gamma * (d_ij**2)) * (X[j, :] - X[i, :])
+            noise_term = alpha_pert * np.random.randn()
+
+            perturbation = beta * (attraction_term + noise_term)
+            # perturbation = beta * np.exp(-gamma * (d_ij**2)) * (X[j, :] - X[i, :]) + alpha_pert * np.random.randn()
             X_new[i, :] = X[i, :] + perturbation
         # d_ij = np.linalg.norm(X[i, :] - X[j, :])
         # perturbation = beta * np.exp(-gamma * (d_ij**2)) * (X[j, :] - X[i, :]) + alpha_pert * np.random.randn()
