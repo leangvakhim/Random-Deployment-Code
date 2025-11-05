@@ -57,9 +57,16 @@ def easoa(n, d, lb, ub, iter_max, benchmark_function):
         X = brightness_driven_perturbation(
             X, Fx, n, d, k, K_max, beta_initial, gamma, alpha_pert
         )
+        X = np.clip(X, lb_vec, ub_vec)
+        Fx = calculate_fitness(X, benchmark_function)
+        current_best_index_for_warn = np.argmin(Fx)
+        current_best_pos_for_warn = X[current_best_index_for_warn, :].copy()
         X = dynamic_warning_update(
-            X, n, d, SD_count, current_global_best_position, delta_warn
+            X, n, d, SD_count, current_best_pos_for_warn, delta_warn # Use the FRESH best position
         )
+        # X = dynamic_warning_update(
+        #     X, n, d, SD_count, current_global_best_position, delta_warn
+        # )
         X = np.clip(X, lb_vec, ub_vec)
         Fx = calculate_fitness(X, benchmark_function)
         current_best_index = np.argmin(Fx)
