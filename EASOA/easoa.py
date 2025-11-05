@@ -11,17 +11,17 @@ from calculation import (
 )
 def easoa(n, d, lb, ub, iter_max, benchmark_function):
 
-    # PD_percent = 0.2
-    # PD_count = int(n * PD_percent)
+    PD_percent = 0.2
+    PD_count = int(n * PD_percent)
     SD_percent = 0.1
     SD_count = int(n * SD_percent)
-    # ST = 0.8 # Safety threshold
+    ST = 0.8 # Safety threshold
 
     elite_rate = 0.2 # Rate of elites for reverse selection
     elite_count = int(n * elite_rate)
 
     beta_initial = 0.5 # Brightness perturbation initial coeff
-    gamma = 0.01        # Brightness perturbation attenuation
+    gamma = 1e-5        # Brightness perturbation attenuation
     # gamma = 0.9        # Brightness perturbation attenuation
     alpha_pert = 0.1   # Brightness perturbation random factor
 
@@ -51,8 +51,8 @@ def easoa(n, d, lb, ub, iter_max, benchmark_function):
         current_global_best_position = X[best_index, :].copy()
         current_global_best_fitness = Fx[best_index]
         global_worst_position = X[worst_index, :].copy()
-        # X = update_producers(X, sorted_indices, iter_max, ST, PD_count, d)
-        # X = update_scroungers(X, sorted_indices, PD_count, n, d, current_global_best_position, global_worst_position)
+        X = update_producers(X, sorted_indices, iter_max, ST, PD_count, d)
+        X = update_scroungers(X, sorted_indices, PD_count, n, d, current_global_best_position, global_worst_position)
         k = t
         K_max = iter_max
         X = brightness_driven_perturbation(
@@ -63,7 +63,7 @@ def easoa(n, d, lb, ub, iter_max, benchmark_function):
         current_best_index_for_warn = np.argmin(Fx)
         current_best_pos_for_warn = X[current_best_index_for_warn, :].copy()
         X = dynamic_warning_update(
-            X, n, d, SD_count, current_best_pos_for_warn, delta_warn # Use the FRESH best position
+            X, n, d, SD_count, current_best_pos_for_warn, delta_warn
         )
         # X = dynamic_warning_update(
         #     X, n, d, SD_count, current_global_best_position, delta_warn

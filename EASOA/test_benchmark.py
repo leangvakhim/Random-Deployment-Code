@@ -47,8 +47,8 @@ upper_bound = function_config[function_to_run]["upper_bound"]
 function_use = function_config[function_to_run]["function"]
 # function_formula = function_config[function_to_run]["formula"]
 n_sparrows = 50
-max_iterations = 500
-times = 1
+max_iterations = 1000
+times = 10
 
 # all_fitness_results = []
 all_position_results = []
