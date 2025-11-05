@@ -24,7 +24,7 @@ def easoa(n, d, lb, ub, iter_max, benchmark_function):
     gamma = 0.9        # Brightness perturbation attenuation
     alpha_pert = 0.1   # Brightness perturbation random factor
 
-    delta_warn = 0.5   # Dynamic warning update coeff
+    delta_warn = 0.3   # Dynamic warning update coeff
 
     lb_vec = lb if isinstance(lb, np.ndarray) else np.full(d, lb)
     ub_vec = ub if isinstance(ub, np.ndarray) else np.full(d, ub)

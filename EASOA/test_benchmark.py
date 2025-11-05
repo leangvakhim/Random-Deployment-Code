@@ -48,7 +48,7 @@ function_use = function_config[function_to_run]["function"]
 # function_formula = function_config[function_to_run]["formula"]
 n_sparrows = 50
 max_iterations = 500
-times = 10
+times = 1
 
 # all_fitness_results = []
 all_position_results = []
