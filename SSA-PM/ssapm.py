@@ -58,7 +58,7 @@ def ssapm(objective_function, iter_max, m_guilds, sparrow_per_guild, dim, lb, ub
     }
 
     total_sparrows = sparrow_per_guild * m_guilds
-    use_levy_flight = True
+    use_levy_flight = False
     detector = stagnationDetector(params['tau_stagnate'])
     chaotic_mech = ChaoticRebirth()
     levy_mech = LevyFlightRebirth()
