@@ -15,6 +15,7 @@ function_config = {
         "dimension": 30,
         "lower_bound": -100,
         "upper_bound": 100,
+        "name": "Swefel's Problem 1.2",
         # "formula": r'$F(x) = \sum_{i=1}^{n} x_i^2$'
     },
     "F2": {
@@ -22,6 +23,7 @@ function_config = {
         "dimension": 30,
         "lower_bound": -100,
         "upper_bound": 100,
+        "name": "High Conditional Elliptics",
         # "formula": r'$F(x) = \sum_{i=1}^{n} |x_i| + \prod_{i=1}^{n} |x_i|$'
     },
     "F3": {
@@ -29,6 +31,7 @@ function_config = {
         "dimension": 30,
         "lower_bound": -32,
         "upper_bound": 32,
+        "name": "Ackley",
         # "formula": r'$F(x) = \sum_{i=1}^{n} \left( \sum_{j=1}^{i} x_j \right)^2$'
     },
     "F4": {
@@ -36,15 +39,17 @@ function_config = {
         "dimension": 30,
         "lower_bound": -600,
         "upper_bound": 600,
+        "name": "Griewank",
         # "formula": r'$F(x) = \max_{i} \{ |x_i| (1 <= i <= n) \} $'
     },
 }
 
-function_to_run = "F3"
+function_to_run = "F2"
 dimension = function_config[function_to_run]["dimension"]
 lower_bound = function_config[function_to_run]["lower_bound"]
 upper_bound = function_config[function_to_run]["upper_bound"]
 function_use = function_config[function_to_run]["function"]
+function_name = function_config[function_to_run]["name"]
 # function_formula = function_config[function_to_run]["formula"]
 n_sparrows = 50
 max_iterations = 1000
@@ -75,4 +80,4 @@ print(f"Global Best Fitness: {global_best_fitness}")
 print(f"Average Time: {average_time:.2f} seconds")
 # print(f"Total Time: {total_time:.2f} seconds")
 
-plot_convergence_curve(convergence_curve)
+plot_convergence_curve(convergence_curve, global_best_fitness, function_name)

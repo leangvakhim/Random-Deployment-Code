@@ -6,7 +6,7 @@ from calculation import (
 )
 
 # Line graphs
-def plot_convergence_curve(convergence_curve_data):
+def plot_convergence_curve(convergence_curve_data, global_best_fitness, name):
     # seaborn alternative
     sns.set_theme(style="whitegrid")
     fig, ax = plt.subplots(figsize=(10, 6))
@@ -23,7 +23,7 @@ def plot_convergence_curve(convergence_curve_data):
         label='EASOA Convergence'
     )
 
-    ax.set_title('EASOA Convergence Curve')
+    ax.set_title(f"EASOA Convergence Curve for {name} with value {global_best_fitness}")
     ax.set_xlabel('Iteration')
     ax.set_ylabel('Fitness')
 
