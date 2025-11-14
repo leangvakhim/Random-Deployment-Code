@@ -27,7 +27,7 @@ class ChaoticRebirth:
         X_reborn = lb + z_vector * (ub - lb)
         population[worst_index] = X_reborn
 
-        return population, fitness_value
+        return population, worst_index
 
 class LevyFlightRebirth:
     def __init__(self, beta=1.5, alpha=0.01):

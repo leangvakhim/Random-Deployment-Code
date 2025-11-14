@@ -3,16 +3,10 @@ from tqdm import tqdm
 import time
 import math
 from ssapm_detector import stagnationDetector
+from ssapm_atp import adaptive_Thermal_Attraction
 from ssapm_rebirth import (
     ChaoticRebirth,
     LevyFlightRebirth
-)
-from calculation import (
-    initialize_sparrow_position,
-    calculate_fitness,
-    update_producers,
-    update_scroungers,
-    danger_aware,
 )
 
 def ssapm(objective_function, iter_max, m_guilds, sparrow_per_guild, dim, lb, ub):
@@ -37,10 +31,12 @@ def ssapm(objective_function, iter_max, m_guilds, sparrow_per_guild, dim, lb, ub
         'beta_levy': 1.5,
 
         # Adaptive Thermal Perturbation (ATP)
-        'g0': 100,
+        'g_0': 100,
         'alpha_gsa': 20,
-        'T0': 100,
+        't_0': 100,
         'alpha_sa': 0.95,
+        'r_base_percent': 0.05,
+        'r_lambda': 2.0,
 
         # Flare Burst Search (FBS)
         's_min': 2,
@@ -54,33 +50,45 @@ def ssapm(objective_function, iter_max, m_guilds, sparrow_per_guild, dim, lb, ub
         'lambda_role': 2.0,
 
         # Multi-population Co-evolution
-        'tau_comm': 10
+        'tau_comm': 10,
+
+        # Original SSA
+        'pd_ratio': 0.2,
+        'st': 0.8
     }
 
     total_sparrows = sparrow_per_guild * m_guilds
-    use_levy_flight = False
+    use_levy_flight = True
     detector = stagnationDetector(params['tau_stagnate'])
     chaotic_mech = ChaoticRebirth()
     levy_mech = LevyFlightRebirth()
+    atp_mech = adaptive_Thermal_Attraction(total_sparrows, dim, params['t_0'], params['alpha_sa'], params['r_base_percent'], params['r_lambda'])
 
     population = np.random.uniform(lb, ub, size=(total_sparrows, dim))
 
     lb_vec = np.full(dim, lb)
     ub_vec = np.full(dim, ub)
 
+    L_diagonal = np.linalg.norm(ub_vec - lb_vec)
+
     fitness_values = np.zeros(total_sparrows)
+
+    mass_m = np.zeros(total_sparrows)
+    mass_M = np.zeros(total_sparrows)
 
     for i in tqdm(range(iter_max), desc="SSA-PM Optimization Progress"):
         fitness_values[i] = objective_function(population[i])
 
         best_index = np.argmin(fitness_values)
         global_best_fit = fitness_values[best_index]
+        worst_index = np.argmax(fitness_values)
+        global_worst_fit = fitness_values[worst_index]
 
         trigger_activated = detector.update(global_best_fit)
 
         if trigger_activated:
             if use_levy_flight:
-                X_phoenix = population[best_index]
+                X_phoenix = population[best_index].copy()
                 new_X_phoenix = levy_mech.execute(X_phoenix)
                 new_X_phoenix = np.clip(new_X_phoenix, lb, ub)
                 population[best_index] = new_X_phoenix
@@ -92,17 +100,63 @@ def ssapm(objective_function, iter_max, m_guilds, sparrow_per_guild, dim, lb, ub
                     lb_vec,
                     ub_vec
                 )
-
                 fitness_values[replaced_idx] = objective_function(population[replaced_idx])
 
             detector.reset_counter()
 
         else:
-            noise = np.random.normal(0, 0.1, population.shape)
-            population = population + noise
+            sorted_indices = np.argsort(fitness_values)
+            num_producers = int(params['pd_ratio'] * total_sparrows)
+            producer_indices = sorted_indices[:num_producers]
+            scrounger_indices = sorted_indices[num_producers:]
+
+            # Calculate G(t)
+            G_t = params['g_0'] * np.exp(-params['alpha_gsa'] * t / iter_max)
+            epsilon = np.finfo(float).eps
+            best_fit_val = fitness_values[best_index]
+            worst_fit_val = fitness_values[worst_index]
+
+            if best_fit_val == worst_fit_val:
+                mass_m.fill(1.0)
+            else:
+                mass_m = (worst_fit_val - fitness_values) / (worst_fit_val - best_fit_val + epsilon)
+
+            mass_M = mass_m / (np.sum(mass_m) + epsilon)
+
+            phoenix_position = population[best_index]
+            phoenix_mass = mass_M[best_index]
+
+            D_t = atp_mech.calculate_diversity(population, L_diagonal)
+            R_heat_t = atp_mech.calculate_heat_radius(D_t, L_diagonal)
+            t_0 = atp_mech.t_0
+
+            R2 = np.random.rand()
+
+            for i, p_idx in enumerate(producer_indices):
+                alpha = np.random.rand()
+                if R2 < params['st']:
+                    population[p_idx] = population[p_idx] * np.exp(-i / (alpha * iter_max))
+                else:
+                    Q = np.random.rand(dim)
+                    population[p_idx] = population[p_idx] + Q
+
+            population = atp_mech.scrounger_update(
+                scrounger_indices,
+                population,
+                objective_function,
+                G_t,
+                phoenix_position,
+                phoenix_mass,
+                global_best_fit,
+                R_heat_t,
+                t_0
+            )
+
+            atp_mech.cool_temperature()
+
             population = np.clip(population, lb, ub)
 
-        time.sleep(0.1)
+        time.sleep(0.05)
 
     for i in range(total_sparrows):
         fitness_values[i] = objective_function(population[i])
