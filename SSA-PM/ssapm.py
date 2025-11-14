@@ -2,7 +2,7 @@ import numpy as np
 from tqdm import tqdm
 import time
 import math
-from ssapm_detector import StagnationDetector
+from ssapm_detector import stagnationDetector
 from ssapm_rebirth import (
     ChaoticRebirth,
     LevyFlightRebirth
@@ -59,7 +59,7 @@ def ssapm(objective_function, iter_max, m_guilds, sparrow_per_guild, dim, lb, ub
 
     total_sparrows = sparrow_per_guild * m_guilds
     use_levy_flight = True
-    detector = StagnationDetector(params['tau_stagnate'])
+    detector = stagnationDetector(params['tau_stagnate'])
     chaotic_mech = ChaoticRebirth()
     levy_mech = LevyFlightRebirth()
 
@@ -70,7 +70,7 @@ def ssapm(objective_function, iter_max, m_guilds, sparrow_per_guild, dim, lb, ub
 
     fitness_values = np.zeros(total_sparrows)
 
-    for i in range(iter_max):
+    for i in tqdm(range(iter_max), desc="SSA-PM Optimization Progress"):
         fitness_values[i] = objective_function(population[i])
 
         best_index = np.argmin(fitness_values)
