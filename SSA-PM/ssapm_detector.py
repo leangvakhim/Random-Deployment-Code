@@ -1,7 +1,7 @@
 import numpy as np
 import time
 
-class stagnationDetector:
+class stagnation_Detector:
     def __init__(self, tau_stagnate = 10):
         self.tau_stagnate = tau_stagnate
         self.C_stagnate = 0

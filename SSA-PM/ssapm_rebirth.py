@@ -1,7 +1,6 @@
 import numpy as np
 import math
-
-class ChaoticRebirth:
+class chaotic_Rebirth:
     def __init__(self, warmup_K=100, mu=4.0):
         self.warmup_K = warmup_K
         self.mu = mu
@@ -29,7 +28,7 @@ class ChaoticRebirth:
 
         return population, worst_index
 
-class LevyFlightRebirth:
+class levy_Flight_Rebirth:
     def __init__(self, beta=1.5, alpha=0.01):
         self.beta = beta
         self.alpha = alpha
