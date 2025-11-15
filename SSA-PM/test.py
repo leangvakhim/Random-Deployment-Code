@@ -49,7 +49,7 @@ params = {
     # Adaption Role Allocation
     'r_start': 0.8,
     'r_end': 0.2,
-    'r_lambda_role': 2.0,
+    'r_role_lambda': 2.0,
 
     # Multi-population Co-evolution
     'tau_comm': 10,
