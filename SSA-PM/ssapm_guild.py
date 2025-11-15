@@ -78,10 +78,16 @@ class guild:
             t, iter_max, self.n_sparrow, self.fitness_values
         )
 
-        best_index = np.argmin(self.fitness_values)
-        worst_index = np.argmax(self.fitness_values)
+        # best_index = np.argmin(self.fitness_values)
+        # worst_index = np.argmax(self.fitness_values)
+        # best_fit_val = self.fitness_values[best_index]
+        # worst_fit_val = self.fitness_values[worst_index]
+
+        best_index = np.nanargmin(self.fitness_values)
+        worst_index = np.nanargmax(self.fitness_values)
         best_fit_val = self.fitness_values[best_index]
         worst_fit_val = self.fitness_values[worst_index]
+
 
         g_t = self.params['g_0'] * np.exp(-self.params['alpha_gsa'] * t / iter_max)
 
