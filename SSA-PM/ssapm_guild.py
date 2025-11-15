@@ -88,15 +88,31 @@ class guild:
         best_fit_val = self.fitness_values[best_index]
         worst_fit_val = self.fitness_values[worst_index]
 
-
         g_t = self.params['g_0'] * np.exp(-self.params['alpha_gsa'] * t / iter_max)
 
-        if best_fit_val == worst_fit_val:
+        if np.isinf(worst_fit_val):
+            self.mass_m = np.where(np.isinf(self.fitness_values), 0.0, 1.0)
+            self.mass_m[np.isnan(self.fitness_values)] = 0.0
+        elif best_fit_val == worst_fit_val:
             self.mass_m.fill(1.0)
         else:
-            self.mass_m = (worst_fit_val - self.fitness_values) / (worst_fit_val - best_fit_val + epsilon)
+            cleaned_fitness = np.nan_to_num(self.fitness_values, nan=worst_fit_val)
+            self.mass_m = (worst_fit_val - cleaned_fitness) / (worst_fit_val - best_fit_val + epsilon)
 
-        self.mass_M = self.mass_m / (np.sum(self.mass_m) + epsilon)
+        # if best_fit_val == worst_fit_val:
+        #     self.mass_m.fill(1.0)
+        # else:
+        #     self.mass_m = (worst_fit_val - self.fitness_values) / (worst_fit_val - best_fit_val + epsilon)
+
+        # self.mass_M = self.mass_m / (np.sum(self.mass_m) + epsilon)
+
+        mass_sum = np.sum(self.mass_m)
+        if mass_sum == 0:
+            self.mass_M.fill(1.0 / self.n_sparrow)
+        else:
+            self.mass_M = self.mass_m / (mass_sum + epsilon)
+
+        self.mass_M[np.isnan(self.mass_M)] = 0.0
 
         phoenix_position = self.population[best_index]
         phoenix_mass = self.mass_M[best_index]
