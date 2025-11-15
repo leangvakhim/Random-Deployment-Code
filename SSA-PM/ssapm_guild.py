@@ -52,7 +52,7 @@ class guild:
         best_index = np.argmin(self.fitness_values)
         best_fit = self.fitness_values[best_index]
 
-        trigger = self.detector.update(best_fit, global_t_str, self.guild_id)
+        trigger = self.detector.update(best_fit)
 
         if trigger:
             if self.params['use_levy_flight']:
@@ -74,7 +74,7 @@ class guild:
     def evolve_sparrows(self, t, iter_max):
         epsilon = np.finfo(float).eps
 
-        producer_indices, scrounger_indices = self.role_allocator.execute(
+        producer_indices, scrounger_indices = self.role_allocator.get_roles(
             t, iter_max, self.n_sparrow, self.fitness_values
         )
 
@@ -112,7 +112,7 @@ class guild:
 
         self.population = self.atp_mech.scrounger_update(
             scrounger_indices, self.population, self.objective_function,
-            self.G_t, self.phoenix_position, phoenix_mass,
+            g_t, phoenix_position, phoenix_mass,
             best_fit_val, R_heat_t, t_0
         )
 
