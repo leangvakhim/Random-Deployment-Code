@@ -45,7 +45,11 @@ class adaptive_Thermal_Attraction:
                 if delta_f > 0:
                     P_repel = 1.0
                 else:
-                    P_repel = np.exp(-delta_f / (T_t + epsilon))
+                    exponent = -delta_f / (T_t + epsilon)
+                    if exponent > 700:  # np.exp(709) is approx limit
+                        P_repel = 1.0
+                    else:
+                        P_repel = np.exp(exponent)
 
                 if np.random.rand() < P_repel:
                     repel_step = np.random.rand(population.shape[1])
