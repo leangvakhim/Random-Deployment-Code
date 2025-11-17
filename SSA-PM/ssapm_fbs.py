@@ -16,10 +16,6 @@ class flare_Burst_Search:
         danger_fitness = fitness_values[danger_indices]
         f_best_D = np.min(danger_fitness)
         f_worst_D = np.max(danger_fitness)
-        # f_best_D = np.nanmin(danger_fitness)
-        # f_worst_D = np.nanmax(danger_fitness)
-        # print(f"f_best_D: {f_best_D}")
-        # print(f"f_worst_D: {f_worst_D}")
 
         search_width = ub_vec - lb_vec
         A_min = self.A_min_percent * search_width
@@ -29,29 +25,15 @@ class flare_Burst_Search:
             f_i = danger_fitness[i]
 
             if f_worst_D == f_best_D:
-
-            # if f_worst_D == f_best_D or np.isnan(f_best_D) or np.isnan(f_worst_D):
                 S_i = self.S_min
             else:
                 ratio = (f_i - f_best_D) / (f_worst_D - f_best_D + epsilon)
                 S_i = self.S_min + int(np.round((self.S_max - self.S_min) * ratio))
-                # print(f"self.S_min: {self.S_min}")
-                # print(f"self.S_max: {self.S_max}")
-                # print(f"ratio: {ratio}")
-                # print(f"S_i: {S_i}")
 
             if f_worst_D == f_best_D:
                 A_i = A_min
             else:
                 A_i = A_min + (A_max - A_min) * ratio
-
-            # if np.isnan(f_i) or f_worst_D == f_best_D or np.isnan(f_best_D) or np.isnan(f_worst_D):
-            #     S_i = self.S_min
-            #     A_i = A_min
-            # else:
-            #     ratio = (f_i - f_best_D) / (f_worst_D - f_best_D + epsilon)
-            #     S_i = self.S_min + int(np.round((self.S_max - self.S_min) * ratio))
-            #     A_i = A_min + (A_max - A_min) * ratio
 
             sparks = []
             sparks_fitness = []

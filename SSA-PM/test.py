@@ -1,20 +1,37 @@
 import numpy as np
 from benchmark import (
-    sphere_function,
+    sphere,
+    schwefel_2_21,
+    schwefel_2_22,
+    schwefel_1_2,
+    quartic_noise,
+    rosenbrock
 )
 from ssapm import (
     ssapm,
 )
+function_config = {
+    "f1": {"function": sphere, "dim": 30, "lb": -100, "ub": 100, "name": "Sphere function"},
+    "f2": {"function": schwefel_2_21, "dim": 30, "lb": -100, "ub": 100, "name": "Schwefel 2.21 function"},
+    "f3": {"function": schwefel_2_22, "dim": 30, "lb": -10, "ub": 10, "name": "Schwefel 2.22 function"},
+    "f4": {"function": schwefel_1_2, "dim": 30, "lb": -100, "ub": 100, "name": "Schwefel 1.2 function"},
+    "f5": {"function": quartic_noise, "dim": 30, "lb": -1.28, "ub": 1.28, "name": "Quartic noise function"},
+    "f6": {"function": rosenbrock, "dim": 30, "lb": -30, "ub": 30, "name": "Rosenbrock function"},
+}
 
-benchmark_function = sphere_function
+func = "f5"
 use_levy_flight = True
-iter_max = 100
+iter_max = 1000
 n_sparrows_total = 500
-m_guilds = 4
+m_guilds = 5
 n_sparrows_per_guild = n_sparrows_total // m_guilds
-dim = 30
-lb = -100
-ub = 100
+# dim = 30
+# lb = -100
+# ub = 100
+benchmark_function = function_config[func]['function']
+dim = function_config[func]['dim']
+lb = function_config[func]['lb']
+ub = function_config[func]['ub']
 params = {
     # General
     'iter_max': iter_max,
@@ -59,8 +76,8 @@ params = {
     'sd_ratio': 0.1,
     'st': 0.8
 }
-# values_list = []
-for _ in range(1):
+values_list = []
+for _ in range(5):
     value = ssapm(
         objective_function=benchmark_function,
         iter_max=iter_max,
@@ -71,8 +88,8 @@ for _ in range(1):
         lb=lb,
         ub=ub,
     )
-    # values_list.append(value)
+    values_list.append(value)
 
 # print(f"Mean of the fitness values: {np.mean(values_list)}")
 
-# print(f"Value is: {value}")
+print(f"Value is: {min(values_list):.4f}")

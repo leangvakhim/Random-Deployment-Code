@@ -39,12 +39,12 @@ def ssapm(objective_function, iter_max, m_guilds, n_sparrows_per_guild, params, 
                 pos, fit = g.get_best_sparrow()
                 if fit < current_best_fit:
                     current_best_fit = fit
-                    current_best_pos = pos
+                    current_best_pos = pos.copy()
 
             # Update the all-time best
             if current_best_fit < great_phoenix_fit:
                 great_phoenix_fit = current_best_fit
-                great_phoenix_pos = current_best_pos
+                great_phoenix_pos = current_best_pos.copy()
 
             if great_phoenix_pos is not None:
                 for g in guilds:
@@ -54,13 +54,17 @@ def ssapm(objective_function, iter_max, m_guilds, n_sparrows_per_guild, params, 
 
         else:
             current_best_fit = float('inf')
+            current_best_pos = None
+
             for g in guilds:
-                _, fit = g.get_best_sparrow()
+                pos, fit = g.get_best_sparrow()
                 if fit < current_best_fit:
                     current_best_fit = fit
+                    current_best_pos = pos.copy()
 
             if current_best_fit < great_phoenix_fit:
                 great_phoenix_fit = current_best_fit
+                great_phoenix_pos = current_best_pos.copy()
 
         time.sleep(0.05)
 
@@ -70,8 +74,8 @@ def ssapm(objective_function, iter_max, m_guilds, n_sparrows_per_guild, params, 
         if fit < final_best_fit:
             final_best_fit = fit
 
-    print(f"Iterations: {iter_max}")
-    print(f"Guilds: {m_guilds} ({n_sparrows_per_guild} sparrows each)")
-    print(f"Final Best Fitness: {final_best_fit:.4e}")
+    # print(f"Iterations: {iter_max}")
+    # print(f"Guilds: {m_guilds} ({n_sparrows_per_guild} sparrows each)")
+    # print(f"Final Best Fitness: {final_best_fit:.4e}")
 
     return final_best_fit
