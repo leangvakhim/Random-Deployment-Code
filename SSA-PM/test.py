@@ -33,18 +33,20 @@ function_config = {
     "f13": {"function": penalized_2, "dim": 30, "lb": -50, "ub": 50, "name": "Penalized 2 function"},
 }
 
-values_list = []
 use_levy_flight = True
 iter_max = 100
 n_sparrows_total = 500
 m_guilds = 1
 n_sparrows_per_guild = n_sparrows_total // m_guilds
+times = 5
 for f in function_config.items():
     benchmark_function = f[1]['function']
     benchmark_name = f[1]['name']
     dim = f[1]['dim']
     lb = f[1]['lb']
     ub = f[1]['ub']
+
+    values_list = []
     params = {
         # General
         'iter_max': iter_max,
@@ -90,7 +92,8 @@ for f in function_config.items():
         'st': 0.8
     }
 
-    for _ in range(1):
+    print(f"\nProcessing: {benchmark_name}")
+    for _ in range(times):
         value = ssapm(
             objective_function=benchmark_function,
             iter_max=iter_max,
@@ -102,12 +105,11 @@ for f in function_config.items():
             ub=ub,
         )
         values_list.append(value)
-        print(f"Benchmark name: {benchmark_name}")
 
     non_zero_values = [v for v in values_list if v > 0]
 
     if non_zero_values:
         best_val = np.min(non_zero_values)
-        print(f"The best value is: {best_val:.4e}")
+        print(f"Best: {best_val:.4e}")
     else:
         print("All values are 0.")
