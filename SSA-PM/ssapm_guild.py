@@ -50,6 +50,7 @@ class guild:
 
     def check_stagnation_and_rebirth(self, t, global_t_str):
         best_index = np.argmin(self.fitness_values)
+        print(f"best index in csar:{best_index}")
         best_fit = self.fitness_values[best_index]
 
         trigger = self.detector.update(best_fit)
@@ -78,33 +79,39 @@ class guild:
             t, iter_max, self.n_sparrow, self.fitness_values
         )
 
-        # best_index = np.argmin(self.fitness_values)
-        # worst_index = np.argmax(self.fitness_values)
+        best_index = np.argmin(self.fitness_values)
+        worst_index = np.argmax(self.fitness_values)
+        best_fit_val = self.fitness_values[best_index]
+        worst_fit_val = self.fitness_values[worst_index]
+        print(f"best index: {best_index}")
+        print(f"worst index: {worst_index}")
+        print(f"best_fit_val: {best_fit_val}")
+        print(f"worst_fit_val: {worst_fit_val}")
+
+        # best_index = np.nanargmin(self.fitness_values)
+        # worst_index = np.nanargmax(self.fitness_values)
         # best_fit_val = self.fitness_values[best_index]
         # worst_fit_val = self.fitness_values[worst_index]
 
-        best_index = np.nanargmin(self.fitness_values)
-        worst_index = np.nanargmax(self.fitness_values)
-        best_fit_val = self.fitness_values[best_index]
-        worst_fit_val = self.fitness_values[worst_index]
-
         g_t = self.params['g_0'] * np.exp(-self.params['alpha_gsa'] * t / iter_max)
 
-        if np.isinf(worst_fit_val):
-            self.mass_m = np.where(np.isinf(self.fitness_values), 0.0, 1.0)
-            self.mass_m[np.isnan(self.fitness_values)] = 0.0
-        elif best_fit_val == worst_fit_val:
-            self.mass_m.fill(1.0)
-        else:
-            cleaned_fitness = np.nan_to_num(self.fitness_values, nan=worst_fit_val)
-            self.mass_m = (worst_fit_val - cleaned_fitness) / (worst_fit_val - best_fit_val + epsilon)
-
-        # if best_fit_val == worst_fit_val:
+        # if np.isinf(worst_fit_val):
+        #     self.mass_m = np.where(np.isinf(self.fitness_values), 0.0, 1.0)
+        #     self.mass_m[np.isnan(self.fitness_values)] = 0.0
+        # elif best_fit_val == worst_fit_val:
         #     self.mass_m.fill(1.0)
         # else:
-        #     self.mass_m = (worst_fit_val - self.fitness_values) / (worst_fit_val - best_fit_val + epsilon)
+        #     cleaned_fitness = np.nan_to_num(self.fitness_values, nan=worst_fit_val)
+        #     self.mass_m = (worst_fit_val - cleaned_fitness) / (worst_fit_val - best_fit_val + epsilon)
 
-        # self.mass_M = self.mass_m / (np.sum(self.mass_m) + epsilon)
+        if best_fit_val == worst_fit_val:
+            self.mass_m.fill(1.0)
+        else:
+            self.mass_m = (worst_fit_val - self.fitness_values) / (worst_fit_val - best_fit_val + epsilon)
+            # print(f"self.fitness_values: {self.fitness_values}")
+            # print(f"self.mass_m: {self.mass_m}")
+
+        self.mass_M = self.mass_m / (np.sum(self.mass_m) + epsilon)
 
         mass_sum = np.sum(self.mass_m)
         if mass_sum == 0:
@@ -126,6 +133,10 @@ class guild:
 
         for i, p_idx in enumerate(producer_indices):
             alpha = np.random.rand()
+
+            if alpha == 0:
+                alpha = 1e-6
+
             if R2 < ST:
                 self.population[p_idx] = self.population[p_idx] * np.exp(-i / (alpha * iter_max))
             else:
@@ -145,6 +156,7 @@ class guild:
         np.random.shuffle(all_indices)
         danger_indices = all_indices[:num_danger]
 
+        # self.fitness_values in fbs_update are display nan ( need to fix it )
         self.population = self.fbs_mech.fbs_update(
             danger_indices, self.population, self.fitness_values,
             self.objective_function, self.lb_vec, self.ub_vec
