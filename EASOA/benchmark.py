@@ -39,3 +39,8 @@ def F4_function(x):
     part2 = np.prod(cos_terms, axis=1)
     total_sum = part1 - part2 + 1
     return total_sum
+
+# Sphere Function
+def F5_function(x):
+    y = x**2
+    return np.sum(y, axis=1)

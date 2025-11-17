@@ -50,7 +50,7 @@ class guild:
 
     def check_stagnation_and_rebirth(self, t, global_t_str):
         best_index = np.argmin(self.fitness_values)
-        print(f"best index in csar:{best_index}")
+        # print(f"best index in csar:{best_index}")
         best_fit = self.fitness_values[best_index]
 
         trigger = self.detector.update(best_fit)
@@ -83,10 +83,10 @@ class guild:
         worst_index = np.argmax(self.fitness_values)
         best_fit_val = self.fitness_values[best_index]
         worst_fit_val = self.fitness_values[worst_index]
-        print(f"best index: {best_index}")
-        print(f"worst index: {worst_index}")
-        print(f"best_fit_val: {best_fit_val}")
-        print(f"worst_fit_val: {worst_fit_val}")
+        # print(f"best index: {best_index}")
+        # print(f"worst index: {worst_index}")
+        # print(f"best_fit_val: {best_fit_val}")
+        # print(f"worst_fit_val: {worst_fit_val}")
 
         # best_index = np.nanargmin(self.fitness_values)
         # worst_index = np.nanargmax(self.fitness_values)
@@ -108,6 +108,10 @@ class guild:
             self.mass_m.fill(1.0)
         else:
             self.mass_m = (worst_fit_val - self.fitness_values) / (worst_fit_val - best_fit_val + epsilon)
+            # print(f"(worst_fit_val) is: {worst_fit_val}")
+            # print(f"(best_fit_val) is: {best_fit_val}")
+            # print(f"(epsilon) is: {epsilon}")
+            # print(f"(worst_fit_val - best_fit_val + epsilon) is: {(worst_fit_val - best_fit_val + epsilon)}")
             # print(f"self.fitness_values: {self.fitness_values}")
             # print(f"self.mass_m: {self.mass_m}")
 
@@ -132,10 +136,10 @@ class guild:
         ST = self.params['st']
 
         for i, p_idx in enumerate(producer_indices):
-            alpha = np.random.rand()
+            alpha = np.random.rand() + np.finfo(float).eps
 
-            if alpha == 0:
-                alpha = 1e-6
+            # if alpha == 0:
+            #     alpha = 1e-6
 
             if R2 < ST:
                 self.population[p_idx] = self.population[p_idx] * np.exp(-i / (alpha * iter_max))

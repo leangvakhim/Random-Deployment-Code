@@ -6,6 +6,7 @@ from benchmark import (
     F2_function,
     F3_function,
     F4_function,
+    F5_function,
 )
 from easoa import easoa
 
@@ -42,9 +43,17 @@ function_config = {
         "name": "Griewank",
         # "formula": r'$F(x) = \max_{i} \{ |x_i| (1 <= i <= n) \} $'
     },
+    "F5": {
+        "function": F5_function,
+        "dimension": 30,
+        "lower_bound": -100,
+        "upper_bound": 100,
+        "name": "Sphere function",
+        # "formula": r'$F(x) = \max_{i} \{ |x_i| (1 <= i <= n) \} $'
+    },
 }
 
-function_to_run = "F2"
+function_to_run = "F5"
 dimension = function_config[function_to_run]["dimension"]
 lower_bound = function_config[function_to_run]["lower_bound"]
 upper_bound = function_config[function_to_run]["upper_bound"]
@@ -52,7 +61,7 @@ function_use = function_config[function_to_run]["function"]
 function_name = function_config[function_to_run]["name"]
 # function_formula = function_config[function_to_run]["formula"]
 n_sparrows = 50
-max_iterations = 1000
+max_iterations = 500
 times = 10
 
 # all_fitness_results = []

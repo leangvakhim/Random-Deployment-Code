@@ -46,8 +46,11 @@ def ssapm(objective_function, iter_max, m_guilds, n_sparrows_per_guild, params, 
                 great_phoenix_fit = current_best_fit
                 great_phoenix_pos = current_best_pos
 
-            for g in guilds:
-                g.replace_worst_sparrow(great_phoenix_pos, great_phoenix_fit)
+            if great_phoenix_pos is not None:
+                for g in guilds:
+                    g.replace_worst_sparrow(great_phoenix_pos, great_phoenix_fit)
+            else:
+                print(f"No valid great phoenix found.")
 
         else:
             current_best_fit = float('inf')
@@ -58,7 +61,6 @@ def ssapm(objective_function, iter_max, m_guilds, n_sparrows_per_guild, params, 
 
             if current_best_fit < great_phoenix_fit:
                 great_phoenix_fit = current_best_fit
-
 
         time.sleep(0.05)
 

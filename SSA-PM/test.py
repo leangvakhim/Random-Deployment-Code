@@ -60,7 +60,7 @@ params = {
     'st': 0.8
 }
 # values_list = []
-for _ in range(10):
+for _ in range(1):
     value = ssapm(
         objective_function=benchmark_function,
         iter_max=iter_max,
