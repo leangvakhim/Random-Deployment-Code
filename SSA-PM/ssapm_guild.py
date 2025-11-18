@@ -21,6 +21,10 @@ class guild:
         self.objective_function = objective_function
 
         self.population = np.random.uniform(lb_vec[0], ub_vec[0], size=(self.n_sparrow, self.dimension))
+
+        # self.fitness_f = np.zeros(n_sparrow)
+        # self.fitness_C = np.zeros(n_sparrow)
+
         self.fitness_values = np.zeros(self.n_sparrow)
         self.mass_m = np.zeros(self.n_sparrow)
         self.mass_M = np.zeros(self.n_sparrow)
@@ -43,6 +47,13 @@ class guild:
         )
 
         # print(f"[Guild {self.guild_id}] Initialized with {self.n_sparrow} sparrows.")
+
+    # def calculate_and_store_fitness(self, idx, position):
+        # position = np.clip(position, self.lb_vec[0], self.ub_vec[0])
+        # f, C = self.objective_function.evaluate(position)
+        # self.fitness_f[idx] = f
+        # self.fitness_C[idx] = C
+        # return f, C
 
     def update_fitness(self):
         for i in range(self.n_sparrow):

@@ -18,25 +18,25 @@ from ssapm import (
     ssapm,
 )
 function_config = {
-    "f1": {"function": sphere, "dim": 30, "lb": -100, "ub": 100, "name": "Sphere function"},
-    "f2": {"function": schwefel_2_21, "dim": 30, "lb": -100, "ub": 100, "name": "Schwefel 2.21 function"},
-    "f3": {"function": schwefel_2_22, "dim": 30, "lb": -10, "ub": 10, "name": "Schwefel 2.22 function"},
-    "f4": {"function": schwefel_1_2, "dim": 30, "lb": -100, "ub": 100, "name": "Schwefel 1.2 function"},
-    "f5": {"function": quartic_noise, "dim": 30, "lb": -1.28, "ub": 1.28, "name": "Quartic noise function"},
-    "f6": {"function": rosenbrock, "dim": 30, "lb": -30, "ub": 30, "name": "Rosenbrock function"},
+    # "f1": {"function": sphere, "dim": 30, "lb": -100, "ub": 100, "name": "Sphere function"},
+    # "f2": {"function": schwefel_2_21, "dim": 30, "lb": -100, "ub": 100, "name": "Schwefel 2.21 function"},
+    # "f3": {"function": schwefel_2_22, "dim": 30, "lb": -10, "ub": 10, "name": "Schwefel 2.22 function"},
+    # "f4": {"function": schwefel_1_2, "dim": 30, "lb": -100, "ub": 100, "name": "Schwefel 1.2 function"},
+    # "f5": {"function": quartic_noise, "dim": 30, "lb": -1.28, "ub": 1.28, "name": "Quartic noise function"},
+    # "f6": {"function": rosenbrock, "dim": 30, "lb": -30, "ub": 30, "name": "Rosenbrock function"},
     "f7": {"function": griewank, "dim": 30, "lb": -600, "ub": 600, "name": "Griewank function"},
-    "f8": {"function": rastrigin, "dim": 30, "lb": -5.12, "ub": 5.12, "name": "Rastrigin function"},
-    "f9": {"function": ackley, "dim": 30, "lb": -32, "ub": 32, "name": "Ackley function"},
-    "f10": {"function": salomon, "dim": 30, "lb": -20, "ub": 20, "name": "Salomon function"},
-    "f11": {"function": xin_she_yang, "dim": 30, "lb": -5, "ub": 5, "name": "Xin she yang function"},
-    "f12": {"function": penalized_1, "dim": 30, "lb": -50, "ub": 50, "name": "Penalized 1 function"},
-    "f13": {"function": penalized_2, "dim": 30, "lb": -50, "ub": 50, "name": "Penalized 2 function"},
+    # "f8": {"function": rastrigin, "dim": 30, "lb": -5.12, "ub": 5.12, "name": "Rastrigin function"},
+    # "f9": {"function": ackley, "dim": 30, "lb": -32, "ub": 32, "name": "Ackley function"},
+    # "f10": {"function": salomon, "dim": 30, "lb": -20, "ub": 20, "name": "Salomon function"},
+    # "f11": {"function": xin_she_yang, "dim": 30, "lb": -5, "ub": 5, "name": "Xin she yang function"},
+    # "f12": {"function": penalized_1, "dim": 30, "lb": -50, "ub": 50, "name": "Penalized 1 function"},
+    # "f13": {"function": penalized_2, "dim": 30, "lb": -50, "ub": 50, "name": "Penalized 2 function"},
 }
 
 use_levy_flight = True
-iter_max = 100
-n_sparrows_total = 500
-m_guilds = 1
+iter_max = 500
+n_sparrows_total = 100
+m_guilds = 5
 n_sparrows_per_guild = n_sparrows_total // m_guilds
 times = 5
 for f in function_config.items():
