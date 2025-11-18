@@ -17,6 +17,9 @@ def ssapm(objective_function, iter_max, m_guilds, n_sparrows_per_guild, params, 
     great_phoenix_pos = None
     great_phoenix_fit = float('inf')
 
+    # Add convergence curve tracking
+    convergence_curve = np.zeros(iter_max)
+
     for t in tqdm(range(iter_max), desc="SSA-PM Optimization Progress"):
 
         t_str = f"Iter {t+1}/{iter_max}"
@@ -66,16 +69,20 @@ def ssapm(objective_function, iter_max, m_guilds, n_sparrows_per_guild, params, 
                 great_phoenix_fit = current_best_fit
                 great_phoenix_pos = current_best_pos.copy()
 
-        time.sleep(0.05)
+        # Store the best fitness for this iteration
+        convergence_curve[t] = great_phoenix_fit
 
-    final_best_fit = float('inf')
-    for g in guilds:
-        _, fit = g.get_best_sparrow()
-        if fit < final_best_fit:
-            final_best_fit = fit
+        # time.sleep(0.05)
+
+    # final_best_fit = float('inf')
+    # for g in guilds:
+    #     _, fit = g.get_best_sparrow()
+    #     if fit < final_best_fit:
+    #         final_best_fit = fit
 
     # print(f"Iterations: {iter_max}")
     # print(f"Guilds: {m_guilds} ({n_sparrows_per_guild} sparrows each)")
     # print(f"Final Best Fitness: {final_best_fit:.4e}")
 
-    return final_best_fit
+    # return final_best_fit
+    return great_phoenix_pos, great_phoenix_fit, convergence_curve

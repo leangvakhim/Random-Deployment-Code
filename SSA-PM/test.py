@@ -18,13 +18,13 @@ from ssapm import (
     ssapm,
 )
 function_config = {
-    # "f1": {"function": sphere, "dim": 30, "lb": -100, "ub": 100, "name": "Sphere function"},
+    "f1": {"function": sphere, "dim": 800, "lb": -100, "ub": 100, "name": "Sphere function"},
     # "f2": {"function": schwefel_2_21, "dim": 30, "lb": -100, "ub": 100, "name": "Schwefel 2.21 function"},
     # "f3": {"function": schwefel_2_22, "dim": 30, "lb": -10, "ub": 10, "name": "Schwefel 2.22 function"},
     # "f4": {"function": schwefel_1_2, "dim": 30, "lb": -100, "ub": 100, "name": "Schwefel 1.2 function"},
     # "f5": {"function": quartic_noise, "dim": 30, "lb": -1.28, "ub": 1.28, "name": "Quartic noise function"},
     # "f6": {"function": rosenbrock, "dim": 30, "lb": -30, "ub": 30, "name": "Rosenbrock function"},
-    "f7": {"function": griewank, "dim": 30, "lb": -600, "ub": 600, "name": "Griewank function"},
+    # "f7": {"function": griewank, "dim": 30, "lb": -600, "ub": 600, "name": "Griewank function"},
     # "f8": {"function": rastrigin, "dim": 30, "lb": -5.12, "ub": 5.12, "name": "Rastrigin function"},
     # "f9": {"function": ackley, "dim": 30, "lb": -32, "ub": 32, "name": "Ackley function"},
     # "f10": {"function": salomon, "dim": 30, "lb": -20, "ub": 20, "name": "Salomon function"},
@@ -94,7 +94,7 @@ for f in function_config.items():
 
     print(f"\nProcessing: {benchmark_name}")
     for _ in range(times):
-        value = ssapm(
+        result = ssapm(
             objective_function=benchmark_function,
             iter_max=iter_max,
             m_guilds=m_guilds,
@@ -104,6 +104,19 @@ for f in function_config.items():
             lb=lb,
             ub=ub,
         )
+
+        value = 0.0 # Default placeholder
+
+        if isinstance(result, tuple) or isinstance(result, list):
+            # Check the first item
+            if np.ndim(result[0]) == 0: # It's a scalar (number)
+                value = float(result[0])
+            else:
+                # If first item is an array, the fitness is likely the second item
+                value = float(result[1])
+        else:
+            # It's already just a number
+            value = float(result)
         values_list.append(value)
 
     non_zero_values = [v for v in values_list if v > 0]
